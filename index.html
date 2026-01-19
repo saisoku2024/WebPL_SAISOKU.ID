@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Harga Produk</title>
+    <title>Toko Online Saya</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,57 +11,91 @@
     <div class="container">
         <header>
             <h1>Daftar Harga Layanan</h1>
-            <p>Solusi terbaik dengan harga terjangkau</p>
+            <p>Pilih paket dan bayar mudah via QRIS</p>
         </header>
 
         <div class="price-list">
             
             <div class="card">
-                <div class="card-header">
-                    <h3>Paket Basic</h3>
-                </div>
+                <div class="card-header"><h3>Paket Basic</h3></div>
                 <div class="price">Rp 50.000</div>
-                <ul class="features">
-                    <li>✅ Fitur Dasar</li>
-                    <li>✅ Support Email</li>
-                    <li>❌ Akses Premium</li>
-                </ul>
-                <a href="#" class="btn">Pilih Paket</a>
+                <ul class="features"><li>✅ Fitur Dasar</li></ul>
+                <button class="btn" onclick="tampilQris('Paket Basic', '50.000')">Beli Sekarang</button>
             </div>
 
             <div class="card popular">
-                <div class="card-header">
-                    <h3>Paket Pro</h3>
-                    <span class="badge">Terlaris</span>
-                </div>
+                <div class="card-header"><h3>Paket Pro</h3><span class="badge">Best Seller</span></div>
                 <div class="price">Rp 100.000</div>
-                <ul class="features">
-                    <li>✅ Semua Fitur Basic</li>
-                    <li>✅ Support 24/7</li>
-                    <li>✅ Akses Premium</li>
-                </ul>
-                <a href="#" class="btn">Pilih Paket</a>
+                <ul class="features"><li>✅ Fitur Lengkap</li></ul>
+                <button class="btn" onclick="tampilQris('Paket Pro', '100.000')">Beli Sekarang</button>
             </div>
 
-            <div class="card">
-                <div class="card-header">
-                    <h3>Paket Enterprise</h3>
-                </div>
+             <div class="card">
+                <div class="card-header"><h3>Paket Enterprise</h3></div>
                 <div class="price">Rp 250.000</div>
-                <ul class="features">
-                    <li>✅ Semua Fitur Pro</li>
-                    <li>✅ Prioritas Utama</li>
-                    <li>✅ Custom Request</li>
-                </ul>
-                <a href="#" class="btn">Pilih Paket</a>
+                <ul class="features"><li>✅ Prioritas</li></ul>
+                <button class="btn" onclick="tampilQris('Paket Enterprise', '250.000')">Beli Sekarang</button>
             </div>
 
         </div>
-
-        <footer>
-            <p>&copy; 2024 Usaha Saya. Dibuat dengan GitHub Pages.</p>
-        </footer>
     </div>
+
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="tutupQris()">&times;</span>
+            <h2>Pembayaran</h2>
+            <p>Anda memilih: <strong id="namaProduk"></strong></p>
+            <p>Total: <strong id="hargaProduk" style="color: #27ae60;"></strong></p>
+            
+            <hr>
+            
+            <p>Silakan scan QRIS di bawah ini:</p>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg" alt="QRIS Code" class="qris-img">
+            <p class="small-text">Atau transfer ke BCA: 1234567890 (A.n Saya)</p>
+
+            <hr>
+
+            <p>Sudah transfer? Konfirmasi ke Admin:</p>
+            <a id="btnKonfirmasi" href="#" class="btn-wa" target="_blank">
+                ✅ Konfirmasi via WhatsApp
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Data Toko
+        const nomorWA = "6281234567890"; // GANTI DENGAN NOMOR WA KAMU
+
+        // Fungsi menampilkan Pop-up
+        function tampilQris(produk, harga) {
+            const modal = document.getElementById("paymentModal");
+            const txtNama = document.getElementById("namaProduk");
+            const txtHarga = document.getElementById("hargaProduk");
+            const btnWa = document.getElementById("btnKonfirmasi");
+
+            // Isi data ke dalam pop-up
+            txtNama.innerText = produk;
+            txtHarga.innerText = "Rp " + harga;
+            modal.style.display = "block";
+
+            // Buat Link WA otomatis
+            const pesan = `Halo Admin, saya sudah melakukan pembayaran untuk *${produk}* seharga *Rp ${harga}* via QRIS. Mohon diproses.`;
+            btnWa.href = `https://wa.me/${nomorWA}?text=${encodeURIComponent(pesan)}`;
+        }
+
+        // Fungsi menutup Pop-up
+        function tutupQris() {
+            document.getElementById("paymentModal").style.display = "none";
+        }
+
+        // Tutup jika klik di luar area pop-up
+        window.onclick = function(event) {
+            const modal = document.getElementById("paymentModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 
 </body>
 </html>
